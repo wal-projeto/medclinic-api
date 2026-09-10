@@ -1,5 +1,4 @@
 // ARQUIVO QUE CONECTA NO BANCO E REGISTRA ENTIDADES/MIGRATIONS (não cria tabela sozinho)
-
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
 

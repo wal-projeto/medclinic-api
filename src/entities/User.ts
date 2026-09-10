@@ -15,18 +15,18 @@ export class User {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 250 })
   nome!: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, type: 'varchar', length: 100 })
   email!: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100 })
   senhaHash!: string;
 
   @CreateDateColumn()
   createdAt!: Date;
 
-  @Column({ default: UserRoleEnum.ATENDENTE })
+  @Column({ type: 'varchar', length: 100, default: UserRoleEnum.ATENDENTE })
   role!: UserRoleEnum;
 }
