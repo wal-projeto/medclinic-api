@@ -4,6 +4,7 @@ import express from 'express';
 
 import { AuthController } from './controllers/AuthController';
 import { initDatabaseConnection } from './database/data-source';
+import { errorHandler } from './middlewares/error-handler.middleware';
 import { UserRepository } from './repositories/UserRepository';
 import { authRouter, authRouterBootstrap } from './routes/auth.routes';
 import { AuthService } from './services/AuthService';
@@ -21,7 +22,7 @@ async function main() {
 
   app.use(express.json({ limit: '50mb' })); // sem ele o req.body chegaria undefined.
   app.use('/auth', authRouter); // auth é o prefixo da rota, então a rota completa para registrar um usuário será /auth/register.
-
+  app.use(errorHandler); // registra o middleware de tratamento de erros
   const PORT = Number(process.env.PORT ?? 3000);
 
   app.listen(PORT, () => {
