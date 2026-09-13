@@ -3,11 +3,14 @@ import 'reflect-metadata';
 import express from 'express';
 
 import { AuthController } from './controllers/AuthController';
+import { UserController } from './controllers/UserController';
 import { initDatabaseConnection } from './database/data-source';
 import { errorHandler } from './middlewares/error-handler.middleware';
 import { UserRepository } from './repositories/UserRepository';
 import { authRouter, authRouterBootstrap } from './routes/auth.routes';
+import { userRouter, userRouterBootstrap } from './routes/user.routes';
 import { AuthService } from './services/AuthService';
+import { UserService } from './services/UserService';
 
 async function main() {
   const app = express();
@@ -18,10 +21,15 @@ async function main() {
   const userRepository = new UserRepository();
   const authService = new AuthService(userRepository);
   const authController = new AuthController(authService);
-  authRouterBootstrap(authController); // registra a rota authController dentro do authRouter = Router()
+  authRouterBootstrap(authController); // registra as rotas /register  e /login dentro do authRouter
+  const userService = new UserService(userRepository); // reaproveita o MESMO userRepository já criado pro AuthService
+  const userController = new UserController(userService);
+  userRouterBootstrap(userController); // registra a rota /me dentro do userRouter
 
   app.use(express.json({ limit: '50mb' })); // sem ele o req.body chegaria undefined.
-  app.use('/auth', authRouter); // auth é o prefixo da rota, então a rota completa para registrar um usuário será /auth/register.
+  app.use('/auth', authRouter); // auth é o prefixo das rotas /register e /login
+  app.use('/users', userRouter); //user é o prefico para a rota /me
+
   app.use(errorHandler); // registra o middleware de tratamento de erros
   const PORT = Number(process.env.PORT ?? 3000);
 
