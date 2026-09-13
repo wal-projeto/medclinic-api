@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'; // biblioteca que sabe criar e assinar tokens JW
 import { UserRoleEnum } from '../entities/User';
 
 // Formato dos dados que vão DENTRO do token
-interface TokenPayload {
+export interface TokenPayload {
   id: number; // 1
   role: UserRoleEnum; // atentende ou admin
 }
