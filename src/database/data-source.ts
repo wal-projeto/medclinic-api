@@ -1,10 +1,10 @@
-// ARQUIVO QUE CONECTA NO BANCO E REGISTRA ENTIDADES/MIGRATIONS (não cria tabela sozinho)
+// ponte de comunicação oficial entre a aplicação Node.js e o servidor do PostgreSQL (não cria tabela sozinho)
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
 
 import { User } from '../entities/User';
 
-//CONFIGURAÇÃO DA FERRAMENTA DataSource DO TYPEORM
+//Instanciando DataSource(do TypeORM) com propriedades process.env. para proteger os dados.
 export const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -17,7 +17,7 @@ export const AppDataSource = new DataSource({
   entities: [User],
   migrations: ['src/database/migrations/*.ts'],
 });
-
+//Exporta essa configuração para ser ligada na inicialização do servidor, no server.ts.
 export async function initDatabaseConnection() {
   await AppDataSource.initialize();
   await AppDataSource.runMigrations();

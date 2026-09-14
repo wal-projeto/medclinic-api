@@ -10,6 +10,8 @@ export enum UserRoleEnum {
   ATENDENTE = 'atendente',
 }
 
+// Classe TypeScript que lista os atributos com seus decoradores do TypeORM,
+// e que serão mapeados para a tabela users do banco de dados PostgreSQL.
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()

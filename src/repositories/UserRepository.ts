@@ -5,15 +5,17 @@ import { User } from '../entities/User';
 const ormRepository = AppDataSource.getRepository(User);
 
 export class UserRepository {
+  // Busca por e-mail
   async findByEmail(email: string): Promise<User | null> {
     return await ormRepository.findOneBy({ email: email.toLowerCase().trim() }); // LInha de defesa para cadastros duplicados.
   }
 
+  // Busca por id
   async findById(id: number): Promise<User | null> {
     return await ormRepository.findOneBy({ id });
   }
 
-  //UserData: monta o objeto em memória, para nao ter que exigir "id", "createdAt" e "role"(o banco quem gera)
+  //UserData: monta o objeto em memória, para nao ter que exigir "id", "createdAt" e "role"(é o banco quem gera)
   async create(userData: {
     nome: string;
     email: string;
